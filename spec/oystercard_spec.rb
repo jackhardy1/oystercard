@@ -30,6 +30,10 @@ describe Oystercard do
       end
     end
 
-
-
+    describe "#touch_in" do
+      it "should change value of in_journey to be true" do
+        subject.touch_in
+        expect{subject.in_journey?}.to eq true
+      end
+    end
 end
