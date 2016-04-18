@@ -20,8 +20,16 @@ describe Oystercard do
     describe "#deduct" do
       it "deducts an amount from balance for a journey" do
         subject.top_up(10)
-        expect{subject.deduct(5)}.to change{subject.balance}.by -5
+        expect{subject.deduct(5)}.to change{subject.balance}.by(-5)
       end
     end
+
+    describe "in_journey?" do
+      it "starts outside of a journey" do
+        expect(subject.in_journey?).to eq false
+      end
+    end
+
+
 
 end

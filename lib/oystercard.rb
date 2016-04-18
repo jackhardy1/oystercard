@@ -10,4 +10,8 @@ MAXIMUM_LIMIT = 90
     fail "The maximum limit is 90" if amount + @balance > MAXIMUM_LIMIT
     @balance += amount
   end
+
+  def deduct(amount)
+    @balance -= amount
+  end
 end
