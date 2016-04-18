@@ -8,6 +8,7 @@ MINIMUM_FARE = 1
     @balance = 0
     @entry_station = nil
     @journey_history = []
+    @exit_station = []
   end
 
   def top_up(amount)
@@ -24,8 +25,10 @@ MINIMUM_FARE = 1
     @entry_station = station
   end
 
-  def touch_out
+  def touch_out(station)
     deduct(MINIMUM_FARE)
+    @exit_station = station
+    @journey_history << [@entry_station,@exit_station]
     @entry_station = nil
   end
 

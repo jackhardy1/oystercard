@@ -47,25 +47,25 @@ describe Oystercard do
       it "should change value of in_journey to be false" do
         subject.top_up(5)
         subject.touch_in(station)
-        subject.touch_out
+        subject.touch_out(station)
         expect(subject.in_journey?).to eq false
       end
 
       it "should deduct the minimum fare" do
         subject.top_up(5)
         subject.touch_in(station)
-        expect{subject.touch_out}.to change{subject.balance}.by(-Oystercard::MINIMUM_FARE)
+        expect{subject.touch_out(station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_FARE)
       end
 
       it "deducts an amount from balance for a journey" do
         subject.top_up(10)
-        expect{subject.touch_out}.to change{subject.balance}.by(-1)
+        expect{subject.touch_out(station)}.to change{subject.balance}.by(-1)
       end
 
       it "sets the entry station to nil" do
         subject.top_up(5)
         subject.touch_in(station)
-        subject.touch_out
+        subject.touch_out(station)
         expect(subject.entry_station).to eq nil
       end
 
