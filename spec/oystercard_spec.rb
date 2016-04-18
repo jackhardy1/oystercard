@@ -68,5 +68,12 @@ describe Oystercard do
         subject.touch_out
         expect(subject.entry_station).to eq nil
       end
+
+      context "journey history" do
+
+        it "a new oystercard returns an empty journey history" do
+          expect(subject.journey_history).to eq []
+        end
+      end
     end
 end
