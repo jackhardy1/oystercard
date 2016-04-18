@@ -6,7 +6,6 @@ MINIMUM_FARE = 1
 
   def initialize
     @balance = 0
-    @in_journey = false
     @entry_station = nil
   end
 
@@ -16,18 +15,17 @@ MINIMUM_FARE = 1
   end
 
   def in_journey?
-    @in_journey
+    !!@entry_station #anything but nil or false is 'true'
   end
 
   def touch_in(station)
     fail "Insufficient funds" if @balance < MINIMUM_BALANCE
     @entry_station = station
-    @in_journey = true
   end
 
   def touch_out
-    @in_journey = false
     deduct(MINIMUM_FARE)
+    @entry_station = nil
   end
 
   private
