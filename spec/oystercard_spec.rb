@@ -35,7 +35,13 @@ describe Oystercard do
         subject.touch_in
         expect(subject.in_journey?).to eq true
       end
+
+      it "it raises an error on 'touch_in', if balance is less than £1" do
+        expect{subject.touch_in}.to raise_error "insufficient funds"
+      end
     end
+
+
     describe "#touch_out" do
       it "should change value of in_journey to be false" do
         subject.touch_in
