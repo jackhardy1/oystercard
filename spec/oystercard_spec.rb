@@ -75,5 +75,13 @@ describe Oystercard do
           expect(subject.journey_history).to eq []
         end
       end
+
+      it "contains a 2d array of entry and exit station" do
+        subject.top_up(5)
+        subject.touch_in(station)
+        subject.touch_out(station)
+        expect(subject.journey_history).to eq([[station,station]])
+      end
+
     end
 end
