@@ -1,0 +1,6 @@
+Chapter 3
+Uninitialized constant Oystercard (NameError)
+/Users/alex/Dropbox/Dev/Code/oystercard/spec/oystercard_spec.rb
+Line 1
+Raised when a given name is invalid or undefined.
+Create a class called oystercard.rb in lib
