@@ -19,4 +19,8 @@ MAXIMUM_LIMIT = 90
   def in_journey?
     @in_journey
   end
+
+  def touch_in
+    @in_journey = true
+  end
 end

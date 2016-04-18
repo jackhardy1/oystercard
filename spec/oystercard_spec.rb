@@ -33,7 +33,14 @@ describe Oystercard do
     describe "#touch_in" do
       it "should change value of in_journey to be true" do
         subject.touch_in
-        expect{subject.in_journey?}.to eq true
+        expect(subject.in_journey?).to eq true
+      end
+    end
+    describe "#touch_out" do
+      it "should change value of in_journey to be false" do
+        subject.touch_in
+        subject.touch_out
+        expect(subject.in_journey?).to eq false
       end
     end
 end
