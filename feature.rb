@@ -2,12 +2,17 @@ require_relative './lib/oystercard'
 
 oyster = Oystercard.new
 
-oyster.top_up(86)
-oyster.deduct(80)
-p oyster.balance
+# oyster.top_up(86)
+# oyster.deduct(80)
+# p oyster.balance
+#
+# p oyster.touch_in
+# p oyster.in_journey
 
+
+oyster.top_up(0.5)
 p oyster.touch_in
-p oyster.in_journey
+
 
 
 
