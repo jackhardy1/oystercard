@@ -6,6 +6,20 @@ describe Oystercard do
     expect(subject.balance).to eq(0)
   end
 
+  # describe "#in_journey?" do
+  #   it "checks card status" do
+  #     expect
+  #   end
+
+  describe "#touch_in" do
+    it "change in_journey to true" do
+      subject.touch_in
+      expect(subject.in_journey?).to be_truthy
+    end
+  end
+
+
+
   describe "#top_up" do
 
     it "tops up balance" do
