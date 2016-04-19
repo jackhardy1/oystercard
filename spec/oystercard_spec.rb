@@ -12,13 +12,20 @@ describe Oystercard do
   #   end
 
   describe "#touch_in" do
+
     it "changes in_journey to true" do
       subject.touch_in
       expect(subject.in_journey).to be_truthy
     end
+
+    it "raises error when balance is insufficient" do
+      subject.top_up(0.5)
+      expect{subject.touch_in}.to raise_error "Insufficient balance"
+    end
   end
 
   describe "#touch_out" do
+
     it "changes in_journey to be false" do
       subject.touch_out
       expect(subject.in_journey).to be_falsey
@@ -26,6 +33,7 @@ describe Oystercard do
   end
 
   describe "#in_journey?" do
+
     it "starts outside a journey" do
       expect(subject.in_journey?).to be_falsey
     end
