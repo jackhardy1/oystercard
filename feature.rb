@@ -6,6 +6,8 @@ oyster.top_up(86)
 oyster.deduct(80)
 p oyster.balance
 
+p oyster.touch_in
+p oyster.in_journey
 
 
 

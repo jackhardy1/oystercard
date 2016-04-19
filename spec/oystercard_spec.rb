@@ -25,6 +25,12 @@ describe Oystercard do
     end
   end
 
+  describe "#in_journey?" do
+    it "starts outside a journey" do
+      expect(subject.in_journey?).to be_falsey
+    end
+  end
+
   describe "#top_up" do
 
     it "tops up balance" do

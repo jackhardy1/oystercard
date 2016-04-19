@@ -12,6 +12,10 @@ class Oystercard
     @in_journey = true
   end
 
+  def touch_out
+    @in_journey = false
+  end
+
   def top_up(num)
     fail "Limit of #{MAX_LIMIT} has been reached" if num + @balance > MAX_LIMIT
     @balance += num
