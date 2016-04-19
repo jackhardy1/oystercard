@@ -2,16 +2,18 @@ require 'oystercard'
 #Test for day two
 describe Oystercard do
   let (:entry_station) {double :entry_station}
+  let (:exit_station)  {double :exit_station}
 
-  it "has default balance of 0" do
+  describe "#initialize" do
+
+  it "starts with default balance of 0" do
     expect(subject.balance).to eq(0)
   end
 
-  # describe "#in_journey?" do
-  #   it "checks card status" do
-  #     expect
-  #   end
-
+  it "starts with empty journey_history" do
+    expect(subject.journey_history).to be_empty
+  end
+end
   describe "#touch_in" do
 
     it "changes in_journey to true" do
@@ -35,21 +37,27 @@ describe Oystercard do
   describe "#touch_out" do
 
     it "changes in_journey to be false" do
-      subject.touch_out
-      expect(subject.in_journey).to be_falsey
+      subject.touch_out(exit_station)
+      expect(subject).not_to be_in_journey
     end
 
     it "deducts fare from card" do
       subject.top_up(5)
       subject.touch_in(entry_station)
-      expect{subject.touch_out}.to change{subject.balance}.by(-1)
+      expect{subject.touch_out(exit_station)}.to change{subject.balance}.by(-1)
     end
 
     it "clears entry_station when touched out" do
       subject.top_up(5)
       subject.touch_in(entry_station)
-      subject.touch_out
+      subject.touch_out(exit_station)
       expect(subject.entry_station).to be_nil
+    end
+
+    it "saves the exit station" do
+      subject.top_up(5)
+      subject.touch_out(exit_station)
+      expect(subject.exit_station).to eq exit_station
     end
   end
 
@@ -77,7 +85,7 @@ describe Oystercard do
 
     it "deducts money from balance" do
       subject.top_up(5)
-      expect{subject.touch_out}.to change{subject.balance}.by(-1)
+      expect{subject.touch_out(exit_station)}.to change{subject.balance}.by(-1)
     end
   end
 

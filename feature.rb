@@ -13,6 +13,8 @@ oyster = Oystercard.new
 oyster.top_up(0.5)
 p oyster.touch_in
 
+oyster.journey_history
+
 
 
 
