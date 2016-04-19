@@ -12,5 +12,10 @@ describe Oystercard do
       subject.top_up(5)
       expect(subject.balance).to eq(5)
     end
+
+    it "has upper limit" do
+      subject.top_up(90)
+      expect{subject.top_up(1)}.to raise_error("Limit has been reached")
+    end
   end
 end
