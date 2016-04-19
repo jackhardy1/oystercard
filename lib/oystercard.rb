@@ -16,6 +16,7 @@ class Oystercard
 
   def touch_out
     @in_journey = false
+    deduct(MIN_FARE)
   end
 
   def in_journey?
@@ -26,7 +27,8 @@ class Oystercard
     fail "Limit of #{MAX_LIMIT} has been reached" if num + @balance > MAX_LIMIT
     @balance += num
   end
-
+  
+  private
   def deduct(num)
     @balance -= num
   end

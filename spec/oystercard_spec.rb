@@ -1,6 +1,7 @@
 require 'oystercard'
 #Test for day two
 describe Oystercard do
+  let (:entry_station) {double :entry_station}
 
   it "has default balance of 0" do
     expect(subject.balance).to eq(0)
@@ -22,6 +23,12 @@ describe Oystercard do
     it "raises error when balance is insufficient" do
       subject.top_up(0.5)
       expect{subject.touch_in}.to raise_error "insufficient balance"
+    end
+
+    it "saves the entry station" do
+      subject.top_up(5)
+      subject.touch_in(entry_station)
+      expect(subject.entry_station).to eq entry_station
     end
   end
 
@@ -63,7 +70,7 @@ describe Oystercard do
 
     it "deducts money from balance" do
       subject.top_up(5)
-      expect{subject.deduct(1)}.to change{subject.balance}.by(-1)
+      expect{subject.touch_out}.to change{subject.balance}.by(-1)
     end
   end
 end
