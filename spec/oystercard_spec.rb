@@ -17,7 +17,7 @@ describe Oystercard do
     it "changes in_journey to true" do
       subject.top_up(2)
       subject.touch_in(entry_station)
-      expect(subject.in_journey).to be_truthy
+      expect(subject).to be_in_journey
     end
 
     it "raises error when balance is insufficient" do
@@ -51,7 +51,6 @@ describe Oystercard do
       subject.touch_out
       expect(subject.entry_station).to be_nil
     end
-
   end
 
   describe "#in_journey?" do
@@ -80,5 +79,9 @@ describe Oystercard do
       subject.top_up(5)
       expect{subject.touch_out}.to change{subject.balance}.by(-1)
     end
+  end
+
+  it "journey history shows an empty hash" do
+    expect(subject.journey_history).to eq ({})
   end
 end
