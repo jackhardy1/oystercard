@@ -1,10 +1,15 @@
 #Test for day two
 class Oystercard
-  attr_reader :balance
+  attr_reader :balance, :in_journey
   MAX_LIMIT = 90
 
   def initialize
     @balance = 0
+    @in_journey
+  end
+
+  def touch_in
+    @in_journey = true
   end
 
   def top_up(num)
