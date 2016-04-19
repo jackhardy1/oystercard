@@ -92,4 +92,16 @@ end
   it "journey history shows an empty hash" do
     expect(subject.journey_history).to eq ({})
   end
+
+  context "journey_history" do
+    before do
+      subject.top_up(5)
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+    end
+
+    it "saves entry and exit station to journey_history" do
+      expect(subject.journey_history).to eq({entry_station => exit_station})
+    end
+  end
 end

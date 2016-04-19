@@ -1,12 +1,13 @@
 #Test for day two
 class Oystercard
-  attr_reader :balance, :entry_station, :journey_history
+  attr_reader :balance, :entry_station, :exit_station, :journey_history
   MAX_LIMIT = 90
   MIN_FARE = 1
 
   def initialize
     @balance = 0
     @entry_station = nil
+    @exit_station = nil
     @journey_history = {}
   end
 
@@ -17,6 +18,7 @@ class Oystercard
 
   def touch_out(exit_station)
     deduct(MIN_FARE)
+    @exit_station = exit_station
     @entry_station = nil
   end
 
