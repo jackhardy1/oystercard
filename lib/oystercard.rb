@@ -19,6 +19,7 @@ class Oystercard
   def touch_out(exit_station)
     deduct(MIN_FARE)
     @exit_station = exit_station
+    @journey_history.store(@entry_station, @exit_station)
     @entry_station = nil
   end
 
@@ -30,6 +31,7 @@ class Oystercard
     fail "Limit of #{MAX_LIMIT} has been reached" if num + @balance > MAX_LIMIT
     @balance += num
   end
+
 
   private
   def deduct(num)

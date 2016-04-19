@@ -3,7 +3,6 @@ require 'oystercard'
 describe Oystercard do
   let (:entry_station) {double :entry_station}
   let (:exit_station)  {double :exit_station}
-
   describe "#initialize" do
 
   it "starts with default balance of 0" do
