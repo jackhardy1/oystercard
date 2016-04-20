@@ -1,4 +1,3 @@
-#Test for day two
 class Oystercard
   attr_reader :balance, :entry_station, :exit_station, :journey_history
   MAX_LIMIT = 90
@@ -31,7 +30,6 @@ class Oystercard
     fail "Limit of #{MAX_LIMIT} has been reached" if num + @balance > MAX_LIMIT
     @balance += num
   end
-
 
   private
   def deduct(num)
