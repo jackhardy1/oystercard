@@ -5,8 +5,6 @@ describe Oystercard do
   let (:entry_station) {double :entry_station, name: "stn1", zone: 1}
   let (:exit_station) {double :exit_station, name: "stn2", zone: 5}
 
-
-
   describe "#initalize" do
     it "zero balance" do
       expect(subject.balance).to eq 0
