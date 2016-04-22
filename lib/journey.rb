@@ -1,28 +1,26 @@
 
 
 class Journey
-  attr_reader :log
+  attr_reader :entry_station, :exit_station
 
   MIN_FARE = 1
   PEN_FARE = 6
 
-
-  def initialize(station = nil)
-    @log = {entry: station, exit: nil}
+  def initialize station = nil
+    @entry_station = station
+    @exit_station
   end
-
+  
   def finish station
-    @log[:exit] = station
-    @log
+    @exit_station = station
   end
 
   def complete?
-     !!@log[:entry] && !!@log[:exit]
+    !!@entry_station && !!@exit_station
   end
 
   def fare
     complete? ? MIN_FARE : PEN_FARE
   end
-
 
 end
