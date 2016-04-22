@@ -8,26 +8,25 @@ aldgate = Station.new("aldgate",1)
 battersea = Station.new("battersea",3)
 
 p oyster.balance
-p oyster.journeys
 
-oyster.touch_in(aldgate)
-oyster.touch_out(battersea)
+# oyster.touch_in(aldgate)
+# oyster.touch_out(battersea)
+# p oyster.balance
+# p oyster
+
+oyster.touch_out(aldgate)
+# oyster.touch_out(aldgate)
 p oyster.balance
-p oyster.journeys
-
-oyster.touch_in(aldgate)
-oyster.touch_in(aldgate)
-p oyster.balance
-p oyster.journeys
-
+p oyster
+#
 p oyster.in_journey?
-oyster.touch_out(battersea)
-
-p oyster.balance
-p oyster.journeys
-
-p oyster.in_journey?
-oyster.touch_out(battersea)
-
-p oyster.balance
-p oyster.journeys
+# oyster.touch_out(battersea)
+# #
+# p oyster.balance
+# p oyster
+#
+# p oyster.in_journey?
+# oyster.touch_out(battersea)
+#
+# p oyster.balance
+# p oyster

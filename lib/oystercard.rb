@@ -2,16 +2,14 @@ require_relative 'journey'
 
 class Oystercard
 
-  attr_reader :balance, :journeys
+  attr_reader :balance
 
   DEFAULT_LIMIT = 90
-  MINIMUM_BALANCE = 1
-  FARE = 1
 
   def initialize
     @balance = 0.00
     @journeys = []
-    @journey = nil
+    @current_journey = nil
   end
 
   def top_up(money)
@@ -20,28 +18,24 @@ class Oystercard
   end
 
   def in_journey?
-    !!@journey
+    !!@current_journey
   end
 
-  def touch_in(station)
+  def touch_in(station, journey_class = Journey)
     charge_and_log if in_journey?
-    fail insufficient_funds if not_enough_credit?
-    @journey = Journey.new station
+    fail insufficient_funds if not_enough_credit? journey_class
+    @current_journey = journey_class.new station
   end
 
-  def touch_out(station)
-    @journey = Journey.new unless in_journey?
-    @journey.finish(station)
+  def touch_out(station, journey_class = Journey)
+    @current_journey = journey_class.new unless in_journey?
+    @current_journey.finish(station)
     charge_and_log
   end
 
-
-
-
-
 private
-  def not_enough_credit?
-    @balance < MINIMUM_BALANCE
+  def not_enough_credit? journey_class = Journey
+    @balance < journey_class::MIN_FARE
   end
 
   def limit_reached?(money)
@@ -60,13 +54,10 @@ private
     "Please top up, not enough credit"
   end
 
-
   def charge_and_log
-    @journeys << @journey.log
-    deduct @journey
-    @journey = nil
+    @journeys << @current_journey
+    deduct @current_journey
+    @current_journey = nil
   end
-
-
 
 end

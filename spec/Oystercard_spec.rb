@@ -11,9 +11,6 @@ describe Oystercard do
     it "zero balance" do
       expect(subject.balance).to eq 0
     end
-    it 'no journey history' do
-    expect(subject.journeys).to be_empty
-    end
   end
 
   describe "#top_up" do
@@ -53,11 +50,6 @@ end
         expect(subject).to receive(:deduct)
         subject.touch_in entry_station
       end
-
-      it "logs half journey" do
-        subject.touch_in entry_station
-        expect(subject.journeys).to include journey
-      end
     end
   end
 
@@ -70,18 +62,6 @@ end
     context "when touched in" do
       before {subject.top_up Oystercard::DEFAULT_LIMIT}
       before {subject.touch_in(entry_station)}
-      it "logs journey" do
-        subject.touch_out(exit_station)
-        expect(subject.journeys).to include journey
-      end
-    end
-
-    context "when not touched in" do
-      let(:journey) {{entry: nil, exit: exit_station}}
-      it "logs half journey" do
-        subject.touch_out(exit_station)
-        expect(subject.journeys).to include journey
-      end
     end
   end
 end
