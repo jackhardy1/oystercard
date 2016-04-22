@@ -34,7 +34,7 @@ class Oystercard
     deduct
   end
 
-  # private
+  # privat
 
   def in_journey?
     @journey.in_journey?
