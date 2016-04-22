@@ -4,9 +4,9 @@ class Oystercard
 
   attr_reader :balance, :journeys
 
-  DEFAULT_LIMIT = 90.00
-  MINIMUM_BALANCE = 1.00
-  FARE = 1.00
+  DEFAULT_LIMIT = 90
+  MINIMUM_BALANCE = 1
+  FARE = 1
 
   def initialize
     @balance = 0.00
@@ -35,10 +35,7 @@ class Oystercard
     deduct
   end
 
-
-
 private
-
   def not_enough_credit?
     @balance < MINIMUM_BALANCE
   end
@@ -52,7 +49,7 @@ private
   end
 
   def top_up_fail_message
-    "Top up amount pushes you over your maximum oyster card limit of £#{DEFAULT_LIMIT}. Your current balance is £#{@balance}"
+    "Maximum limit of £#{DEFAULT_LIMIT} exceeded"
   end
 
   def no_entry_station?

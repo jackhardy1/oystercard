@@ -20,9 +20,8 @@ describe Oystercard do
 
   describe "#limit_reached?" do
     it "raise error if #top_up(amount) puts balance over maximum limit." do
-      msg1 = "Top up amount pushes you over your maximum oyster card limit of £#{Oystercard::DEFAULT_LIMIT}."
-      msg2 =  "Your current balance is £#{subject.balance}"
-      expect{ subject.top_up 91 }.to raise_error "#{msg1} #{msg2}"
+      err_msg = "Maximum limit of £#{described_class::DEFAULT_LIMIT} exceeded"
+      expect{ subject.top_up 91 }.to raise_error err_msg
     end
 end
 
