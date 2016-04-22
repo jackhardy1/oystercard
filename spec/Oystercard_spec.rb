@@ -2,6 +2,8 @@ require "oystercard"
 
 describe Oystercard do
 
+  let (:entry_station) {double :entry_station, name: "stn1", zone: 1}
+  let (:exit_station) {double :exit_station, name: "stn2", zone: 5}
 
   describe "#initalize" do
     it "starts with a balance of zero" do
@@ -25,16 +27,10 @@ describe Oystercard do
     end
 end
 
-
-let (:entry_station) {double :entry_station, name: "stn1", zone: 1}
-let (:exit_station) {double :exit_station, name: "stn2", zone: 5}
-
-# MAKE JOURNEY REMEMBER ENTRY AND EXIT STATIONS
-
   describe "#touch_in" do
     let(:journey) {{entry: ["stn1", 1]}}
     it 'changes the journey status to true' do
-      subject.top_up Oystercard::MINIMUM_BALANCE
+      subject.top_up Oystercard::DEFAULT_LIMIT
       subject.touch_in(entry_station)
       expect(subject).to be_in_journey
     end
@@ -42,12 +38,34 @@ let (:exit_station) {double :exit_station, name: "stn2", zone: 5}
     it 'raises an error if balance below minimun limit' do
       expect{ subject.touch_in(entry_station) }.to raise_error "Please top up, not enough credit"
     end
+
+    it 'no money deducted' do
+      subject.top_up Oystercard::DEFAULT_LIMIT
+      expect(subject).not_to receive(:deduct)
+      subject.touch_in entry_station
+    end
+
+
+    context 'already touched in' do
+      let(:journey) {{entry: entry_station, exit: nil}}
+      before {subject.top_up Oystercard::DEFAULT_LIMIT}
+      before {subject.touch_in entry_station}
+      it "charges fare for previous journey" do
+        expect(subject).to receive(:deduct)
+        subject.touch_in entry_station
+      end
+
+      it "logs half journey" do
+        subject.touch_in entry_station
+        expect(subject.journeys).to include journey
+      end
+    end
   end
 
   describe "#touch_out" do
     let(:journey) {{entry: entry_station, exit: exit_station}}
 
-    before {subject.top_up Oystercard::MINIMUM_BALANCE}
+    before {subject.top_up Oystercard::DEFAULT_LIMIT}
     before {subject.touch_in(entry_station)}
 
 
