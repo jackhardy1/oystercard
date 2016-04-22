@@ -5,11 +5,13 @@ describe Oystercard do
   let (:entry_station) {double :entry_station, name: "stn1", zone: 1}
   let (:exit_station) {double :exit_station, name: "stn2", zone: 5}
 
+
+
   describe "#initalize" do
-    it "starts with a balance of zero" do
+    it "zero balance" do
       expect(subject.balance).to eq 0
     end
-    it 'starts with an empty journey history' do
+    it 'no journey history' do
     expect(subject.journeys).to be_empty
     end
   end
@@ -18,10 +20,8 @@ describe Oystercard do
     it "increase balance by set amount" do
       expect{ subject.top_up 1 }.to change{ subject.balance }.by 1
     end
-  end
 
-  describe "#limit_reached?" do
-    it "raise error if #top_up(amount) puts balance over maximum limit." do
+    it "raise error if balance over limit." do
       err_msg = "Maximum limit of £#{described_class::DEFAULT_LIMIT} exceeded"
       expect{ subject.top_up 91 }.to raise_error err_msg
     end
@@ -29,13 +29,13 @@ end
 
   describe "#touch_in" do
     let(:journey) {{entry: ["stn1", 1]}}
-    it 'changes the journey status to true' do
+    it 'in journey' do
       subject.top_up Oystercard::DEFAULT_LIMIT
       subject.touch_in(entry_station)
       expect(subject).to be_in_journey
     end
 
-    it 'raises an error if balance below minimun limit' do
+    it 'raises an error if balance below minimun fare' do
       expect{ subject.touch_in(entry_station) }.to raise_error "Please top up, not enough credit"
     end
 
@@ -44,7 +44,6 @@ end
       expect(subject).not_to receive(:deduct)
       subject.touch_in entry_station
     end
-
 
     context 'already touched in' do
       let(:journey) {{entry: entry_station, exit: nil}}
@@ -64,29 +63,25 @@ end
 
   describe "#touch_out" do
     let(:journey) {{entry: entry_station, exit: exit_station}}
-
-    before {subject.top_up Oystercard::DEFAULT_LIMIT}
-    before {subject.touch_in(entry_station)}
-
-
-    it "deducts the fare from the oystercard" do
-      expect{ subject.touch_out(entry_station) }.to change { subject.balance }.by -Oystercard::FARE
+    it "charges fare" do
+      expect(subject).to receive(:deduct)
+      subject.touch_out exit_station
     end
-
-    it "saves the exit station in the journey history" do
-      subject.touch_out(exit_station)
-      expect(subject.journeys).to include journey
-    end
-
-    context "when not touched" do
-      let(:journey) {{entry: nil, exit: exit_station}}
-      it "shows nil entry station" do
-        no_entry = Oystercard.new
-        no_entry.touch_out(exit_station)
-        expect(no_entry.journeys).to include journey
+    context "when touched in" do
+      before {subject.top_up Oystercard::DEFAULT_LIMIT}
+      before {subject.touch_in(entry_station)}
+      it "logs journey" do
+        subject.touch_out(exit_station)
+        expect(subject.journeys).to include journey
       end
-
     end
 
+    context "when not touched in" do
+      let(:journey) {{entry: nil, exit: exit_station}}
+      it "logs half journey" do
+        subject.touch_out(exit_station)
+        expect(subject.journeys).to include journey
+      end
+    end
   end
 end

@@ -25,7 +25,7 @@ class Oystercard
 
   def touch_in(station)
     charge_and_log if in_journey?
-    fail "Please top up, not enough credit" if not_enough_credit?
+    fail insufficient_funds if not_enough_credit?
     @journey = Journey.new station
   end
 
@@ -34,6 +34,10 @@ class Oystercard
     @journey.finish(station)
     charge_and_log
   end
+
+
+
+
 
 private
   def not_enough_credit?
@@ -51,6 +55,11 @@ private
   def top_up_fail_message
     "Maximum limit of £#{DEFAULT_LIMIT} exceeded"
   end
+
+  def insufficient_funds
+    "Please top up, not enough credit"
+  end
+
 
   def charge_and_log
     @journeys << @journey.log
